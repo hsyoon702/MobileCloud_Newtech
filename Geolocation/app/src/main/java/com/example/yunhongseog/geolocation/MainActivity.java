@@ -1,6 +1,7 @@
 package com.example.yunhongseog.geolocation;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,11 +13,11 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     public static String sdPath;
     public static String myPath;
-    private WebView mWebView;    // 웹뷰 선언
+    WebView mWebView;    // 웹뷰 선언
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        MainActivity activity = new MainActivity();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -30,11 +31,24 @@ public class MainActivity extends AppCompatActivity {
         }
         myPath = sdPath + "/NateOn/NateOn_download/index.html";
         checkGPS();
-
         mWebView = (WebView) findViewById(R.id.WebView1);
         mWebView.getSettings().setJavaScriptEnabled(true);      // 웹뷰에서 자바 스크립트 사용
+
+        mWebView.setWebViewClient(new MyWebView() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                // TODO Auto-generated method stub
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // TODO Auto-generated method stub
+                super.onPageFinished(view, url);
+            }
+        });
+
         mWebView.loadUrl("https://hshs-hsyoon702.c9users.io/hello-world.html");            // 웹뷰에서 불러올 URL 입력
-        mWebView.setWebViewClient(new MyWebView());
 
     }
 
